@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SkillSync - Student Skill Matching</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">
+        Skill<span>Sync</span>
+    </div>
+
+    <nav>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#students">Students</a>
+        <a href="#match">Skill Match</a>
+    </nav>
+</header>
+
+
+<main>
+
+    <!-- DASHBOARD -->
+
+    <section id="dashboard" class="hero">
+
+        <div class="hero-content">
+
+            <p class="tag">STUDENT SKILL PLATFORM</p>
+
+            <h1>
+                Connect Students.
+                <br>
+                <span>Share Skills.</span>
+            </h1>
+
+            <p class="hero-text">
+                SkillSync helps students discover each other's skills,
+                find suitable skill partners and build better teams.
+            </p>
+
+            <div class="hero-buttons">
+                <button onclick="showSection('addStudent')">
+                    Add Student
+                </button>
+
+                <button class="secondary-btn"
+                        onclick="showSection('students')">
+                    View Students
+                </button>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATISTICS -->
+
+    <section class="stats-section">
+
+        <div class="stat-card">
+            <h2 id="totalStudents">0</h2>
+            <p>Total Students</p>
+        </div>
+
+        <div class="stat-card">
+            <h2 id="totalSkills">0</h2>
+            <p>Total Skills</p>
+        </div>
+
+        <div class="stat-card">
+            <h2 id="totalColleges">0</h2>
+            <p>Colleges</p>
+        </div>
+
+    </section>
+
+
+    <!-- ADD STUDENT -->
+
+    <section id="addStudent" class="section">
+
+        <div class="section-title">
+            <p class="tag">PROFILE</p>
+            <h2>Add Student</h2>
+            <p>Add student information and skills.</p>
+        </div>
+
+        <div class="form-card">
+
+            <form id="studentForm">
+
+                <div class="form-grid">
+
+                    <div class="input-group">
+                        <label>Student Name</label>
+
+                        <input
+                                type="text"
+                                id="studentName"
+                                placeholder="Enter student name"
+                                required
+                        >
+                    </div>
+
+
+                    <div class="input-group">
+                        <label>College</label>
+
+                        <input
+                                type="text"
+                                id="studentCollege"
+                                placeholder="Enter college name"
+                                required
+                        >
+                    </div>
+
+
+                    <div class="input-group">
+                        <label>Course</label>
+
+                        <input
+                                type="text"
+                                id="studentCourse"
+                                placeholder="e.g. B.Tech IT"
+                                required
+                        >
+                    </div>
+
+
+                    <div class="input-group">
+                        <label>Year</label>
+
+                        <select id="studentYear" required>
+
+                            <option value="">
+                                Select Year
+                            </option>
+
+                            <option value="1">
+                                1st Year
+                            </option>
+
+                            <option value="2">
+                                2nd Year
+                            </option>
+
+                            <option value="3">
+                                3rd Year
+                            </option>
+
+                            <option value="4">
+                                4th Year
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Bio</label>
+
+                    <textarea
+                            id="studentBio"
+                            placeholder="Tell something about the student"
+                            rows="4"
+                            required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Skills</label>
+
+                    <input
+                            type="text"
+                            id="studentSkills"
+                            placeholder="Java, SQL, HTML, CSS"
+                            required
+                    >
+
+                    <small>
+                        Separate skills using commas.
+                    </small>
+
+                </div>
+
+
+                <button type="submit">
+                    Add Student
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- STUDENTS -->
+
+    <section id="students" class="section">
+
+        <div class="section-title">
+
+            <p class="tag">STUDENT DIRECTORY</p>
+
+            <h2>All Students</h2>
+
+            <p>
+                Search and manage registered students.
+            </p>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by name, college or skill..."
+                    oninput="displayStudents()"
+            >
+
+        </div>
+
+
+        <div id="studentList" class="student-grid">
+
+        </div>
+
+    </section>
+
+
+    <!-- SKILL MATCH -->
+
+    <section id="match" class="section match-section">
+
+        <div class="section-title">
+
+            <p class="tag">SMART MATCHING</p>
+
+            <h2>Find Skill Match</h2>
+
+            <p>
+                Enter your skills and find students having matching skills.
+            </p>
+
+        </div>
+
+
+        <div class="match-card">
+
+            <label>Your Skills</label>
+
+            <input
+                    type="text"
+                    id="matchSkills"
+                    placeholder="Example: Java, SQL, React"
+            >
+
+            <button onclick="findSkillMatch()">
+                Find Matches
+            </button>
+
+        </div>
+
+
+        <div id="matchResults" class="student-grid">
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- EDIT MODAL -->
+
+<div id="editModal" class="modal">
+
+    <div class="modal-content">
+
+        <span
+                class="close"
+                onclick="closeEditModal()"
+        >
+            &times;
+        </span>
+
+        <h2>Edit Student</h2>
+
+        <form id="editForm">
+
+            <input type="hidden" id="editId">
+
+
+            <div class="input-group">
+
+                <label>Name</label>
+
+                <input
+                        type="text"
+                        id="editName"
+                        required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>College</label>
+
+                <input
+                        type="text"
+                        id="editCollege"
+                        required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Course</label>
+
+                <input
+                        type="text"
+                        id="editCourse"
+                        required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Year</label>
+
+                <select id="editYear" required>
+
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Bio</label>
+
+                <textarea
+                        id="editBio"
+                        rows="4"
+                        required
+                ></textarea>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>Skills</label>
+
+                <input
+                        type="text"
+                        id="editSkills"
+                        required
+                >
+
+            </div>
+
+
+            <button type="submit">
+                Update Student
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <p>
+        © 2026 SkillSync | Student Skill Matching Platform
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
